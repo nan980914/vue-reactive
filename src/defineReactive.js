@@ -1,11 +1,15 @@
 import observe from './observe'
+import Dep from './Dep'
 
 // 封装，为了构造一个闭包环境
 export default function defineReactive(data,key,value = data[key]) {
 
+    // 闭包中的dep
+    const dep = new Dep();
+
     // 子元素也要进行observe,至此形成了递归。
     // 这个递归不是自己调用自己，而是多个函数、类循环调用。
-    let childob = observe(value);
+    let childOb = observe(value);
 
     Object.defineProperty(data,key,{
         // 可枚举
@@ -13,14 +17,23 @@ export default function defineReactive(data,key,value = data[key]) {
         // 可以被配置
         configurable:true,
         get() {
-            console.log('你正在试图访问属性')
+            console.log(`你正在试图访问${key}属性`)
+            // 如果现在处于依赖收集阶段
+            if(Dep.target) { // 如果当前全局存在Watcher，则正在依赖收集
+                dep.depend()
+                if(childOb) {
+                    childOb.dep.depend()
+                }
+            }
             return value
         },
         set(newVal) {
-            console.log('你正在试图设置属性')
+            console.log(`你正在试图设置${key}属性`)
             value = newVal
             // 当设置了新值，新值也要observe
-            childob = observe(newVal)
+            childOb = observe(newVal)
+            // 发布订阅模式，通知dep
+            dep.notify()
         }
     })
 }

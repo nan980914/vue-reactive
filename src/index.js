@@ -1,6 +1,5 @@
-import defineReactive from './defineReactive'
-
 import observe from './observe'
+import Watcher from './Watcher'
 
 var obj = {
     a:{
@@ -9,33 +8,27 @@ var obj = {
         }
     },
     b:3,
+    c: {
+        cc:2
+    },
     d:[1,2,3]
 }
 
 
 observe(obj);
 
-obj.a.m = 222
+// obj.d.pop()
+// obj.d.splice(1,0,[33,44])
 
-console.log(obj.a.m)
+new Watcher(obj,'a.m.n',(val)=>{
+    console.log('☆',val)
+})
 
-console.log(obj.d)
+obj.a.m = 9;
 
-// obj.d.push(33)
+console.log(obj)
 
-// obj.d.shift()
-
-// obj.d.length =1
-
-obj.d[2] = 4
-
-obj.d[6] = 555
-
-console.log(obj.d)
 // console.log(obj.d)
 
-
-
-
-// defineReactive(obj,'a',3)
+// obj.d.shift()
 

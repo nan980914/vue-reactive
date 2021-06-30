@@ -14,6 +14,7 @@ export default class Dep {
   depend() {
     // Dep.target 就是一个我们自己指定的全局的位置，全局唯一
     // Dep.target 其实就是watcher
+    console.log('watcher')
     if(Dep.target) {
       // this.addSub(Dep.target);
       Dep.target.addDep(this)
@@ -24,6 +25,7 @@ export default class Dep {
     console.log("notify");
     // 浅克隆一份
     const subs = this.subs.slice();
+    console.log('subs',subs)
     // 遍历
     for (let i = 0, l = subs.length; i < l; i++) {
       subs[i].update();

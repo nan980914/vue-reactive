@@ -22,7 +22,7 @@ export default class Watcher {
     const obj = this.target;
     var value;
     try {
-      value = this.getter(obj);
+      value = this.getter(obj); // 获取属性，触发getter
     } finally {
       Dep.target = null;
     }

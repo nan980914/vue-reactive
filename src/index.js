@@ -20,11 +20,12 @@ observe(obj);
 // obj.d.pop()
 // obj.d.splice(1,0,[33,44])
 
-new Watcher(obj,'a.m.n',(val)=>{
-    console.log('☆',val)
+new Watcher(obj,'a',(val)=>{
+    console.log(2222)
+    console.log('☆☆☆☆☆☆☆☆☆☆',val)
 })
 
-obj.a.m = 9;
+obj.a.m= 2
 
 console.log(obj)
 

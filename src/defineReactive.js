@@ -17,18 +17,17 @@ export default function defineReactive(data,key,value = data[key]) {
         // 可以被配置
         configurable:true,
         get() {
-            console.log(`你正在试图访问${key}属性`)
             // 如果现在处于依赖收集阶段
             if(Dep.target) { // 如果当前全局存在Watcher，则正在依赖收集
                 dep.depend()
                 if(childOb) {
+                    console.log(`${key}`,111)
                     childOb.dep.depend()
                 }
             }
             return value
         },
         set(newVal) {
-            console.log(`你正在试图设置${key}属性`)
             value = newVal
             // 当设置了新值，新值也要observe
             childOb = observe(newVal)
